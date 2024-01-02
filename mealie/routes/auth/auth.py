@@ -30,6 +30,11 @@ class MealieAuthToken(BaseModel):
         return cls(access_token=token, token_type=token_type).model_dump()
 
 
+@public_router.options("/token")
+def get_token_options():
+    return None
+
+
 @public_router.post("/token")
 async def get_token(
     request: Request,

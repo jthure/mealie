@@ -25,6 +25,12 @@
         "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
         "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
         "python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/bin/zsh"
+          }
+        }
       },
       "extensions": [
         "dbaeumer.vscode-eslint",
@@ -33,13 +39,16 @@
         "ms-python.pylint",
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "Vue.volar"
+        "Vue.volar",
+        "ms-azuretools.vscode-docker"
       ]
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [
     3000,
+    5000,
+    5001,
     9000,
     9091, // used by docker production
     24678 // used by nuxt when hot-reloading using polling

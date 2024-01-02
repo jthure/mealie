@@ -6,6 +6,7 @@ from shutil import copytree, rmtree
 from typing import Any
 from uuid import UUID, uuid4
 from zipfile import ZipFile
+from urllib.parse import unquote
 
 from fastapi import UploadFile
 from slugify import slugify
@@ -40,6 +41,7 @@ class RecipeService(BaseService):
         super().__init__()
 
     def _get_recipe(self, data: str | UUID, key: str | None = None) -> Recipe:
+        self.logger.info(f"!!! Data: {data} Key: {key}")
         recipe = self.repos.recipes.by_group(self.group.id).get_one(data, key)
         if recipe is None:
             raise exceptions.NoEntryFound("Recipe not found.")
@@ -114,7 +116,9 @@ class RecipeService(BaseService):
 
         if isinstance(slug_or_id, UUID):
             return self._get_recipe(slug_or_id, "id")
-
+        elif slug_or_id.startswith("http"):
+            parsed_url = unquote(slug_or_id)
+            return self._get_recipe(parsed_url, "org_url")
         else:
             return self._get_recipe(slug_or_id, "slug")
 

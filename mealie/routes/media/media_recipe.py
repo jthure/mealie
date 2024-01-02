@@ -30,7 +30,7 @@ async def get_recipe_img(recipe_id: str, file_name: ImageType = ImageType.origin
     recipe_image = Recipe.directory_from_id(recipe_id).joinpath("images", file_name.value)
 
     if recipe_image.exists():
-        return FileResponse(recipe_image)
+        return FileResponse(recipe_image, media_type="image/webp")
     else:
         raise HTTPException(status.HTTP_404_NOT_FOUND)
 

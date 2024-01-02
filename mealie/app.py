@@ -14,6 +14,7 @@ from mealie.routes import router, spa, utility_routes
 from mealie.routes.handlers import register_debug_handler
 from mealie.routes.media import media_router
 from mealie.services.scheduler import SchedulerRegistry, SchedulerService, tasks
+from fastapi.middleware.cors import CORSMiddleware
 
 settings = get_app_settings()
 
@@ -92,7 +93,21 @@ app = FastAPI(
     redoc_url=settings.REDOC_URL,
     lifespan=lifespan_fn,
 )
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:5000",
+    "http://localhost:5001",
+    "http://localhost:9000",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 if not settings.PRODUCTION:
